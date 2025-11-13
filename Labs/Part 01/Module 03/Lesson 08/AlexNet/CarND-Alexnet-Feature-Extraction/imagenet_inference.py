@@ -8,15 +8,15 @@ from alexnet import AlexNet
 
 
 # placeholders
-x = tf.placeholder(tf.float32, (None, 227, 227, 3))
+#x = tf.placeholder(tf.float32, (None, 227, 227, 3))
 
 # By keeping `feature_extract` set to `False`
 # we indicate to keep the 1000 class final layer
 # originally used to train on ImageNet.
-probs = AlexNet(x, feature_extract=False)
-init = tf.global_variables_initializer()
-sess = tf.Session()
-sess.run(init)
+
+#init = tf.global_variables_initializer()
+#sess = tf.Session()
+#sess.run(init)
 
 # Read Images
 im1 = (imread("poodle.png")[:, :, :3] * 255).astype(np.float32)
@@ -25,9 +25,13 @@ im1 = im1 - np.mean(im1)
 im2 = (imread("weasel.png")[:, :, :3] * 255).astype(np.float32)
 im2 = im2 - np.mean(im2)
 
+x = tf.Variable([im1, im2])
+
 # Run Inference
 t = time.time()
-output = sess.run(probs, feed_dict={x: [im1, im2]})
+output = AlexNet(x, feature_extract=False)
+print(output)
+#output = sess.run(probs, feed_dict={x: [im1, im2]})
 
 # Print Output
 for input_im_ind in range(output.shape[0]):
