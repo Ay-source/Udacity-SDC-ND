@@ -43,6 +43,7 @@ X_data = tf.Variable(X_data)
 t = time.time()
 fc7 = AlexNet(X_data, feature_extract=True)
 shape = (fc7.get_shape().as_list()[-1], nb_classes)
+print(shape)
   # use this shape for the weight matrix
 W = tf.Variable(tf.random.normal(shape))
 B = tf.Variable(tf.random.normal([shape[-1]]))
