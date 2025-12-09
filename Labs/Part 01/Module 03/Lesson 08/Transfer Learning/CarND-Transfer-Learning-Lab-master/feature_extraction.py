@@ -37,16 +37,11 @@ def load_bottleneck_data(training_file, validation_file):
 
 def main(_):
     # load bottleneck data
-    #X_train, y_train, X_val, y_val = load_bottleneck_data(FLAGS.training_file, FLAGS.validation_file)
+    X_train, y_train, X_val, y_val = load_bottleneck_data(FLAGS.training_file, FLAGS.validation_file)
 
-    #print(X_train.shape, y_train.shape)
-    #print(X_val.shape, y_val.shape)
+    print(X_train.shape, y_train.shape)
+    print(X_val.shape, y_val.shape)
     
-    (X_train, y_train), (X_test, y_test) = cifar10.load_data()
-    # y_train.shape is 2d, (50000, 1). While Keras is smart enough to handle this
-    # it's a good idea to flatten the array.
-    y_train = y_train.reshape(-1)
-    y_test = y_test.reshape(-1)
 
     # TODO: define your model and hyperparams here
     # make sure to adjust the number of classes based on
