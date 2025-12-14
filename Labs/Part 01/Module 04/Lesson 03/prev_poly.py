@@ -8,13 +8,13 @@ binary_warped = mpimg.imread('warped_example.jpg')
 
 # Polynomial fit values from the previous frame
 # Make sure to grab the actual values from the previous step in your project!
-left_fit = np.array([ 2.13935315e-04, -3.77507980e-01,  4.76902175e+02])
-right_fit = np.array([4.17622148e-04, -4.93848953e-01,  1.11806170e+03])
+left_fit = np.array([ 2.23090058e-04, -3.90812851e-01,  4.78139852e+02])
+right_fit = np.array([ 4.19709859e-04, -4.79568379e-01,  1.11522544e+03])
 
 def fit_poly(img_shape, leftx, lefty, rightx, righty):
     ### TO-DO: Fit a second order polynomial to each with np.polyfit() ###
-    left_fit = np.polyfit(leftx, lefty, 2)
-    right_fit = np.polyfit(rightx, righty, 2)
+    left_fit = np.polyfit(lefty, leftx, 2)
+    right_fit = np.polyfit(righty, rightx, 2)
     # Generate x and y values for plotting
     ploty = np.linspace(0, img_shape[0]-1, img_shape[0])
     ### TO-DO: Calc both polynomials using ploty, left_fit and right_fit ###
@@ -38,8 +38,14 @@ def search_around_poly(binary_warped):
     ### within the +/- margin of our polynomial function ###
     ### Hint: consider the window areas for the similarly named variables ###
     ### in the previous quiz, but change the windows to our new search area ###
-    left_lane_inds = 
-    right_lane_inds = None
+    left_lane_inds = (
+        (nonzerox > (left_fit[0]*(nonzeroy**2)+left_fit[1]*(nonzeroy)+left_fit[2] - margin)) &
+        (nonzerox < (left_fit[0]*(nonzeroy**2)+left_fit[1]*(nonzeroy)+left_fit[2] + margin))
+    )
+    right_lane_inds = (
+        (nonzerox > (right_fit[0]*(nonzeroy**2)+right_fit[1]*(nonzeroy)+right_fit[2] - margin)) &
+        (nonzerox < (right_fit[0]*(nonzeroy**2)+right_fit[1]*(nonzeroy)+right_fit[2] + margin))
+    )
     
     # Again, extract left and right line pixel positions
     leftx = nonzerox[left_lane_inds]
@@ -87,3 +93,4 @@ result = search_around_poly(binary_warped)
 
 # View your output
 plt.imshow(result)
+plt.show()
