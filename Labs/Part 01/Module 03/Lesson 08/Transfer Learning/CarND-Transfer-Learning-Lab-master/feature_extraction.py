@@ -2,7 +2,7 @@ import pickle
 from absl import app, flags
 import tensorflow as tf
 from keras.datasets import cifar10
-from tensorflow.keras.layers import Dense, Input, Flatten
+from tensorflow.keras.layers import Dense, Input, Flatten, LayerNormalization
 from tensorflow.keras.models import Model
 #import tensorflow.compat.v1 as tf
 #tf.disable_v2_behavior()
@@ -56,12 +56,17 @@ def main(_):
     # 43 for traffic
     inp = Input(shape=shape)
     Flat = Flatten()(inp)
-    fc1 = Dense(10, activation="softmax")(Flat)
+    fc = Dense(720, activation="relu")(Flat)
+    ln = LayerNormalization()(fc)
+    # For the cifar10 data set uncomment below
+    fc1 = Dense(10, activation="softmax")(ln)
+    # for the traffic sign datase, uncomment below
+    #fc1 = Dense(43, activation="softmax")(ln)
     model = Model(inp, fc1)
 
     model.compile(
         optimizer = tf.keras.optimizers.Adam(learning_rate=0.001),
-        loss = "categorical_crossentropy",
+        loss = "sparse_categorical_crossentropy",
         metrics=["accuracy"]
     )
 

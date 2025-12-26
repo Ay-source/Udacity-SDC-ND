@@ -51,44 +51,27 @@ def grayscale(X):
     for img in X:
         gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
         new_X.append(gray)
-    #new_X = standardize(to_num(new_X))
     return new_X
 
-def hsl(images, layer=0):
-    hued = []
-    for image in images:
-        transit = cv2.cvtColor(image, cv2.COLOR_RGB2HLS)
-        #transit = transit[:, :, layer]
-        #mask = np.zeros_like(transit)
-        #mask[(transit > 70) & (transit > 255)] = 1
-        #hued.append(mask)
-        hued.append(transit)
-    #hued = standardize(to_num(hued))
-    return hued
 
 def yuv(images, layer=0):
     hued = []
     for image in images:
         transit = cv2.cvtColor(image, cv2.COLOR_RGB2YUV)
-        #transit = transit[:, :, layer]
-        #mask = np.zeros_like(transit)
-        #mask[(transit > 70) & (transit > 255)] = 1
-        #hued.append(mask)
         hued.append(transit)
-    #hued = standardize(to_num(hued))
     return hued
 
 
 
-X_train = grayscale(X_train)
-X_valid = grayscale(X_valid)
-X_test = grayscale(X_test)
+#X_train = grayscale(X_train)
+#X_valid = grayscale(X_valid)
+#X_test = grayscale(X_test)
 
 layer = 0
 
-#X_train = hsl(X_train, layer)
-#X_valid = hsl(X_valid, layer)
-#X_test = hsl(X_test, layer)
+X_train = yuv(X_train, layer)
+X_valid = yuv(X_valid, layer)
+X_test = yuv(X_test, layer)
 
 total_mean = np.mean(X_train)
 total_std = np.std(X_train)
@@ -101,7 +84,7 @@ X_test =  standardize(to_num(X_test))
 print(X_train.shape)
 
 learning_rate = 0.001
-epochs = 40
+epochs = 5
 batch_size = 64
 input_depth = X_train.shape[-1]
 steps_per_epoch = int(np.ceil(n_train / batch_size))
@@ -172,12 +155,12 @@ class CNN_Model(tf.Module):
 
 
         self.wfc1 = tf.Variable(tf.random.normal([7*7*(depthc4), depthf1], mean=mu, stddev=sigma), name="weight1", trainable=True)
-        self.bfc1 = tf.Variable(tf.zeros([depthf1]), name="bias1", trainable=True)
+        self.bfc1 = 0#tf.Variable(tf.zeros([depthf1]), name="bias1", trainable=True)
         self.g_f1 = tf.Variable(tf.ones([depthf1]), name="g_f1", trainable=True)
         self.b_f1  = tf.Variable(tf.zeros([depthf1]), name="b_f1", trainable=True)
 
         self.wfc2 = tf.Variable(tf.random.normal([depthf1, depthf2], mean=mu, stddev=sigma), name="weight4", trainable=True)
-        self.bfc2 = tf.Variable(tf.zeros([depthf2]), name="bias4", trainable=True)
+        self.bfc2 = 0#tf.Variable(tf.zeros([depthf2]), name="bias4", trainable=True)
         self.g_f2 = tf.Variable(tf.ones([depthf2]), name="g_f2", trainable=True)
         self.b_f2  = tf.Variable(tf.zeros([depthf2]), name="b_f2", trainable=True)
 
@@ -398,6 +381,6 @@ for epoch in range(s, epochs+1):
     print(f"Epoch {epoch}, train_loss {train_loss}, train_accuracy {train_accuracy}, valid_loss {valid_loss}, valid_accuracy {valid_accuracy}")
     
 
-test_loss, test_accuracy = test_and_valid(X_test, y_data, n_test)
+test_loss, test_accuracy = test_and_valid(X_test, y_test, n_test)
 
 print(f"Test loss {test_loss}, Test accuracy {test_accuracy}")

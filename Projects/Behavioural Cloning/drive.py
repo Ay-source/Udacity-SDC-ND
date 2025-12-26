@@ -50,6 +50,7 @@ controller.set_desired(set_speed)
 
 @sio.on('telemetry')
 def telemetry(sid, data):
+    print("Telemtry run")
     if data:
         # The current steering angle of the car
         steering_angle = data["steering_angle"]
@@ -75,7 +76,9 @@ def telemetry(sid, data):
             image.save('{}.jpg'.format(image_filename))
     else:
         # NOTE: DON'T EDIT THIS.
+        print("Nothing")
         sio.emit('manual', data={}, skip_sid=True)
+
 
 
 @sio.on('connect')
@@ -133,7 +136,10 @@ if __name__ == '__main__':
         print("NOT RECORDING THIS RUN ...")
 
     # wrap Flask application with engineio's middleware
-    app = socketio.Middleware(sio, app)
+    #app = socketio.Middleware(sio, app)
+    app = socketio.WSGIApp(sio, app)
+
 
     # deploy as an eventlet WSGI server
     eventlet.wsgi.server(eventlet.listen(('', 4567)), app)
+
