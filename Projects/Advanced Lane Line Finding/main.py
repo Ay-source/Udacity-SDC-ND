@@ -23,7 +23,7 @@ import matplotlib.pyplot as plt
 test_image = "./test_images/test1.jpg"
 #test_image = "./camera_cal/calibration12.jpg"
 video_path = "./project_video.mp4"
-video_path = "./challenge_video.mp4"
+#video_path = "./challenge_video.mp4"
 #video_path = "./harder_challenge_video.mp4"
 result_path = "./result/" + video_path[2:]
 fps = 30
@@ -74,13 +74,13 @@ for image in tqdm(image_frames):
     perspect = Perspective(threshed)
 
     # Finding Lane Lines
-    lanes = Find_lanes(perspect)
+    new_image = Find_lanes(perspect)
 
     # Getting the inverse transform
-    inverse = Perspective.inverse(lanes)
+    inverse = Perspective.inverse(new_image)
 
     # Output the normal image with the marked out region
-    lanes = Find_lanes.output(image, inverse)
+    lanes = Find_lanes.draw_poly(image, inverse)
 
     images.append(lanes)
 
