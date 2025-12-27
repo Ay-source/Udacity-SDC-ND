@@ -9,3 +9,6 @@ Projects/Behavioural Cloning/data
 Labs/Part 03/Module 03/CarND-Object-Detection-Lab-master/data_road/
 Projects/Behavioural Cloning/*.h5
 Projects/Behavioural Cloning/*.keras
+Labs/Part 03/Module 03/CarND-Object-Detection-Lab-master/rf*
+Labs/Part 03/Module 03/CarND-Object-Detection-Lab-master/faster*
+Labs/Part 03/Module 03/CarND-Object-Detection-Lab-master/ssd*
