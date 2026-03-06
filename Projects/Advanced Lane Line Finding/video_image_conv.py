@@ -1,5 +1,5 @@
 import moviepy
-from moviepy.editor import VideoFileClip, ImageSequenceClip
+from moviepy import VideoFileClip, ImageSequenceClip
 import numpy as np
 
 class images_to_video():
@@ -30,8 +30,7 @@ class video_to_images():
     def __call__(self):    
         clip = VideoFileClip(self.video_path)
         if self.fps:
-            clip = clip.set_fps(self.fps)
+            clip = clip.with_fps(self.fps)
         frames = clip.iter_frames()
         frames_list = list(frames)
-        frames_array = np.array(frames_list)
-        return frames_array
+        return np.array(frames_list)

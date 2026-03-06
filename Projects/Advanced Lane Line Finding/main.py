@@ -26,7 +26,7 @@ video_path = "./project_video.mp4"
 #video_path = "./challenge_video.mp4"
 #video_path = "./harder_challenge_video.mp4"
 result_path = "./result/" + video_path[2:]
-fps = 30
+fps = 7#30
 
 # Video to Image
 print("Converting from video to Images...")
@@ -74,13 +74,15 @@ for image in tqdm(image_frames):
     perspect = Perspective(threshed)
 
     # Finding Lane Lines
-    new_image = Find_lanes(perspect)
+    new_image = Find_lanes(perspect, conv=True)
 
     # Getting the inverse transform
     inverse = Perspective.inverse(new_image)
 
     # Output the normal image with the marked out region
     lanes = Find_lanes.draw_poly(image, inverse)
+
+    #lanes = np.dstack((threshed, threshed, threshed)) * 255
 
     images.append(lanes)
 
