@@ -18,3 +18,5 @@ Research Papers
 Projects/Vehicle Detection/data/*
 Projects/Vehicle Detection/object-dataset/*
 Projects/Vehicle Detection/object-detection-crowdai/*
+Projects/Semantic Segmentation/*.h5
+Projects/Semantic Segmentation/*.keras
