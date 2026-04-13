@@ -21,3 +21,4 @@ Projects/Vehicle Detection/object-detection-crowdai/*
 Projects/Semantic Segmentation/*.h5
 Projects/Semantic Segmentation/*.keras
 Projects/Semantic Segmentation/data/*
+Projects/Semantic Segmentation/*.mp4
